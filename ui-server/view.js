@@ -4,13 +4,19 @@ angular.module('ui.bootstrap.demo').controller('AlertDemoCtrl', function ($scope
     { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
     { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
   ];
+  $scope.address = 'http://127.0.0.1:8081';
+
+  /*
+  $http.get('server_info.json').then(function(data) {
+     $scope.address = data.address;
+  });
+  */
 
   $scope.gatewaylist = [];
-
   $scope.auth = function() {
     $http({
       method: 'GET',
-      url: 'http://127.0.0.1:8080/auth'
+      url: $scope.address + '/auth'
     }).then(function successCallback(response) {
         // this callback will be called asynchronously
         // when the response is available

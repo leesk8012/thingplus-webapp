@@ -1,0 +1,24 @@
+{
+  "name": "thingplus-webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leesk8012/thingplus-webapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leesk8012/thingplus-webapp/issues"
+  },
+  "homepage": "https://github.com/leesk8012/thingplus-webapp#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "request": "^2.81.0"
+  }
+}
