@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// code 수정 더 필요? /
+// code 수정 더 필요? -- 기능 추가 및 코드 정리 필요.
 var config = require('./auth_info.json');
 var base_url = "https://nocert.sandbox.thingplus.net/api/v2";
 
