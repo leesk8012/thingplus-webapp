@@ -5,39 +5,17 @@ angular.module('ui.bootstrap.demo').controller('AlertDemoCtrl', function ($scope
     { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
   ];
   $scope.address = 'http://127.0.0.1:8081';
-
-  /*
-  $http.get('server_info.json').then(function(data) {
-     $scope.address = data.address;
-  });
-  */
-
-  $scope.gatewaylist = [];
-  $scope.auth = function() {
-    $http({
-      method: 'GET',
-      url: $scope.address + '/auth'
-    }).then(function successCallback(response) {
-        // this callback will be called asynchronously
-        // when the response is available
-        $scope.alerts.push({msg: 'success ' + response});
-
-      }, function errorCallback(response) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        $scope.alerts.push({msg: 'error ' + response});
-      });
-  }
+  $scope.oaddress = 'http://127.0.0.1:8080';
 
   $scope.gateways = function() {
-    // request api
-  };
-
-  $scope.addAlert = function() {
-    //$scope.alerts.push({msg: 'Another alert!'});
-  };
-
-  $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
+    $http({
+      method: 'GET',
+      url: $scope.address + '/gateways',
+      headers: {'Content-Type': 'application/json'}
+    }).then(function successCallback(response) {
+        $scope.data = response;
+      }, function errorCallback(response) {
+        conosole.log(response);
+      });
   };
 });
