@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="ui.bootstrap.demo">
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="../js/rules.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <a href=./gateways.html>Gateways</a>
+    <a href=./sensors.html>Sensors</a>
+    <a href=./rules.html>Rules</a>
+    <div ng-controller="RulesCtrl">
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Serverity</th>
+            <th>Desc</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in rules">
+            <th scope="row">{{$index}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.severity}}</td>
+            <td>{{item.desc}}</td>
+            <td>{{item.actions}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class='btn btn-default' ng-click="rules()">Get Rules</button>
+    </div>
+  </body>
+</html>
