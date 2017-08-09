@@ -9,10 +9,69 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
+    <div ng-controller="AlertDemoCtrl">
 
-<div ng-controller="AlertDemoCtrl">
-  {{data}}
-<button type="button" class='btn btn-default' ng-click="gateways()">Gateways</button>
-</div>
+<!-- Tab set 동작 잘 안됨?
+      <tabset>
+        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+          <div ng-include="tab.content"></div>
+        </tab>
+      </tabset>
+-->
+<md-tabs>
+  <md-tab label="Tab #1"></md-tab>
+  <md-tab label="Tab #2"></md-tab>
+  <md-tab label="Tab #3"></md-tab>
+</md-tabs>
+
+<md-tab label ng-disabled md-on-select md-on-deselect>
+  <h3>My Tab content</h3>
+</md-tab>
+
+<md-tab>
+  <md-tab-label>
+    <h3>My Tab content</h3>
+  </md-tab-label>
+  <md-tab-body>
+    <p>
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+      totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
+      dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+      sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+    </p>
+  </md-tab-body>
+</md-tab>
+
+    <md-tabs>
+        <md-tab label="Product catalog">
+            <div ng-include src="gateways.html"></div>
+        </md-tab>
+        <md-tab label="Workers management">
+            <div ng-include src="sensors.html"></div>
+        </md-tab>
+    </md-tabs>
+
+    <!--
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Location Sensor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in gateways">
+            <th scope="row">{{$index}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.location}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class='btn btn-default' ng-click="gateways()">Get Gateways</button>
+    -->
+    </div>
   </body>
 </html>

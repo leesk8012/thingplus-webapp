@@ -6,7 +6,7 @@ var app = express();
 var config = require('../config/auth_info.json');
 
 var server_url = 'http://127.0.0.1:8081';
-var base_url = "https://api.sandbox.thingplus.net/v2";
+var base_url = config.url.base_url;
 
 app.get('/', function (req, res) {
   var param = url.parse(req.url, true).query;

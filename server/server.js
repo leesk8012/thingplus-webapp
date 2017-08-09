@@ -11,9 +11,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 var config = require('../config/auth_info.json');
-var base_url = "https://api.sandbox.thingplus.net/v2";
+var base_url = config.url.base_url;
 
-var auth_code;
 
 app.all("/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -84,6 +83,125 @@ app.get('/gateways', function (req, res) {
     }
   });
 });
+
+app.get('/gateways/*/sensors', function (req, res) {
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/gateways/"+req.params[0]+"/sensors",
+          method: "GET",
+          json: true,
+          headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+app.get('/gateways/*/sensors/*/series', function (req, res) {
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/gateways/"+req.params[0]+"/sensors/"+req.params[1]+"/series",
+          method: "GET",
+          json: true,
+          headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+app.get('/rules', function (req, res) {
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/rules",
+          method: "GET",
+          json: true,
+          headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+app.get('/rules/*', function (req, res) {
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/rules/"+req.params[0],
+          method: "GET",
+          json: true,
+          headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+// Delete, Update X
+
+// app.delete('/gateways/', function (req, res) {
+//   console.log("delete");
+  // console.log(req);
+  // console.log(req);
+  // var params = req.body;
+  // var result = '';
+  // console.log(params);
+  // if (Object.keys(params).length > 0) {
+  //   result = params.data;
+  // }
+  // res.send(result);
+// });
 
 app.use(express.static('.'));
 var server = app.listen(8081, function () {
