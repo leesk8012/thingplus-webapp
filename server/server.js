@@ -28,6 +28,7 @@ app.get('/auth', function (req, res) {
   return res.redirect(301, base_url + "/oauth2/authorize?response_type="+response_type+"&client_id="+client_id+"&redirect_uri="+redirect_uri);
 });
 
+
 app.post('/oauth2/token', function (req, res) {
   var params = req.body;
   console.log("Before /oauth2/token :"+req.body.code);
@@ -58,6 +59,7 @@ app.post('/oauth2/token', function (req, res) {
   }
 });
 
+//  GET 게이트웨이 리스트
 app.get('/gateways', function (req, res) {
   fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
     if (err) {
@@ -69,7 +71,7 @@ app.get('/gateways', function (req, res) {
           method: "GET",
           json: true,
           headers: {
-              'Content-Type':'application/x-www-form-urlencoded',
+              'Content-Type':'application/json',
               'Authorization': data,
             }
           },
@@ -84,6 +86,119 @@ app.get('/gateways', function (req, res) {
   });
 });
 
+//  GET 게이트웨이 정보
+app.get('/gateways/*', function (req, res) {
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/gateways/"+req.params[0],
+          method: "GET",
+          json: true,
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+
+// 게이트웨이 정보 업데이트
+app.put('/gateways/*', function (req, res) {
+  var params = req.body;
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/gateways/"+req.params[0],
+          method: "PUT",
+          json: true,
+          body: params,
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+// 게이트웨이 정보 삭제
+app.delete('/gateways/*', function (req, res) {
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/gateways/"+req.params[0],
+          method: "DELETE",
+          json: true,
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            res.type('application/json');
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+// 게이트웨이 등록
+app.post('/registerGateway', function (req, res) {
+var params = req.body;
+  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      request({
+          url: base_url + "/registerGateway",
+          method: "POST",
+          json: true,
+          body: params,
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': data,
+            }
+          },
+          function (error, response, body) {
+            console.log(body);
+            res.type('application/json');
+            res.jsonp(body.data);
+            res.end();
+          }
+      );
+    }
+  });
+});
+
+
+// 특정 게이트웨이의 센서 리스트
 app.get('/gateways/*/sensors', function (req, res) {
   fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
     if (err) {
@@ -95,7 +210,7 @@ app.get('/gateways/*/sensors', function (req, res) {
           method: "GET",
           json: true,
           headers: {
-              'Content-Type':'application/x-www-form-urlencoded',
+              'Content-Type':'application/json',
               'Authorization': data,
             }
           },
@@ -110,6 +225,7 @@ app.get('/gateways/*/sensors', function (req, res) {
   });
 });
 
+// Sensor 값 측정
 app.get('/gateways/*/sensors/*/series', function (req, res) {
   fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
     if (err) {
@@ -121,7 +237,7 @@ app.get('/gateways/*/sensors/*/series', function (req, res) {
           method: "GET",
           json: true,
           headers: {
-              'Content-Type':'application/x-www-form-urlencoded',
+              'Content-Type':'application/json',
               'Authorization': data,
             }
           },
@@ -135,6 +251,7 @@ app.get('/gateways/*/sensors/*/series', function (req, res) {
     }
   });
 });
+
 
 app.get('/rules', function (req, res) {
   fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
@@ -147,7 +264,7 @@ app.get('/rules', function (req, res) {
           method: "GET",
           json: true,
           headers: {
-              'Content-Type':'application/x-www-form-urlencoded',
+              'Content-Type':'application/json',
               'Authorization': data,
             }
           },
@@ -161,6 +278,7 @@ app.get('/rules', function (req, res) {
     }
   });
 });
+
 
 app.get('/rules/*', function (req, res) {
   fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
@@ -173,7 +291,7 @@ app.get('/rules/*', function (req, res) {
           method: "GET",
           json: true,
           headers: {
-              'Content-Type':'application/x-www-form-urlencoded',
+              'Content-Type':'application/json',
               'Authorization': data,
             }
           },
@@ -187,21 +305,6 @@ app.get('/rules/*', function (req, res) {
     }
   });
 });
-
-// Delete, Update X
-
-// app.delete('/gateways/', function (req, res) {
-//   console.log("delete");
-  // console.log(req);
-  // console.log(req);
-  // var params = req.body;
-  // var result = '';
-  // console.log(params);
-  // if (Object.keys(params).length > 0) {
-  //   result = params.data;
-  // }
-  // res.send(result);
-// });
 
 app.use(express.static('.'));
 var server = app.listen(8081, function () {
