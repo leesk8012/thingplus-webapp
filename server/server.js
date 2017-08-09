@@ -1,8 +1,7 @@
 var express = require('express');
 var request = require('request');
-var url = require('url');
-var fs = require('fs');
 var bodyParser = require('body-parser');
+var tpRequest = require('./lib/tp-request');
 
 var app = express();
 // parse application/x-www-form-urlencoded
@@ -21,6 +20,7 @@ app.all("/*", function (req, res, next) {
     return next();
 });
 
+
 app.get('/auth', function (req, res) {
   var response_type = config.user_info.response_type;
   var client_id = config.user_info.client_id;
@@ -28,281 +28,167 @@ app.get('/auth', function (req, res) {
   return res.redirect(301, base_url + "/oauth2/authorize?response_type="+response_type+"&client_id="+client_id+"&redirect_uri="+redirect_uri);
 });
 
-
+// OAuth2 token 얻기
 app.post('/oauth2/token', function (req, res) {
-  var params = req.body;
-  console.log("Before /oauth2/token :"+req.body.code);
-  if (Object.keys(params).length > 0) {
-    config.token_param.code = params.code;
+  if (Object.keys(req.body).length > 0) {
+    config.token_param.code = req.body.code;
     console.log(config.token_param);
-    request({
-        url: base_url + "/oauth2/token",
-        method: "POST",
-        json: true,
-        body: config.token_param
-        },
-        function (error, response, body) {
-          console.log("After /oauth2/token");
-          console.log(body);
-          if (body != undefined) {
-            var auth = body.token_type + " " + body.access_token;
-            fs.writeFile('../config/auth.txt', auth, function(err) {
-              if (err) {
-                console.log(err);
-              }
-            });
-          }
-          res.write("res body = server in oauth2/token");
+    tpRequest.getAuth(function (auth) {
+      tpRequest.sendGetRequest(auth, "POST", base_url + "/oauth2/token", config.token_param, function (error, response, body) {
+        console.log(body);
+        tpRequest.setAuth(body.token_type + " " + body.access_token, function() {
+          res.type('application/json');
+          res.status(response.statusCode);
+          res.write("server oauth2/token finished.");
           res.end();
-        }
-    );
+        });
+      });
+    });
   }
 });
 
 //  GET 게이트웨이 리스트
 app.get('/gateways', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/gateways",
-          method: "GET",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "GET", base_url + "/gateways", {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
   });
 });
 
+
 //  GET 게이트웨이 정보
 app.get('/gateways/*', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/gateways/"+req.params[0],
-          method: "GET",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "GET", base_url + "/gateways/"+req.params[0], {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
   });
 });
 
 
 // 게이트웨이 정보 업데이트
 app.put('/gateways/*', function (req, res) {
-  var params = req.body;
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/gateways/"+req.params[0],
-          method: "PUT",
-          json: true,
-          body: params,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
-  });
+    tpRequest.getAuth(function (auth) {
+      tpRequest.sendGetRequest(auth, "PUT", base_url + "/gateways/"+req.params[0], req.body, function (error, response, body) {
+        res.type('application/json');
+        res.status(response.statusCode);
+        res.jsonp(body.data);
+        res.end();
+      });
+    });
 });
 
 // 게이트웨이 정보 삭제
 app.delete('/gateways/*', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/gateways/"+req.params[0],
-          method: "DELETE",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            res.type('application/json');
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "DELETE", base_url + "/gateways/"+req.params[0], {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.end();
+    });
   });
 });
 
-// 게이트웨이 등록
+// 게이트웨이 등록 (센서도 같이 등록하기)
 app.post('/registerGateway', function (req, res) {
-var params = req.body;
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/registerGateway",
-          method: "POST",
-          json: true,
-          body: params,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "POST", base_url + "/registerGateway", req.body, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
   });
 });
 
 
 // 특정 게이트웨이의 센서 리스트
 app.get('/gateways/*/sensors', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/gateways/"+req.params[0]+"/sensors",
-          method: "GET",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "GET", base_url + "/gateways/"+req.params[0]+"/sensors", {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
   });
 });
 
 // Sensor 값 측정
 app.get('/gateways/*/sensors/*/series', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/gateways/"+req.params[0]+"/sensors/"+req.params[1]+"/series",
-          method: "GET",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "GET", base_url + "/gateways/"+req.params[0]+"/sensors/"+req.params[1]+"/series", {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
   });
 });
 
-
+// 규칙 리스트
 app.get('/rules', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/rules",
-          method: "GET",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "GET", base_url + "/rules", {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
   });
 });
 
-
+// 규칙 정보
 app.get('/rules/*', function (req, res) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      request({
-          url: base_url + "/rules/"+req.params[0],
-          method: "GET",
-          json: true,
-          headers: {
-              'Content-Type':'application/json',
-              'Authorization': data,
-            }
-          },
-          function (error, response, body) {
-            console.log(body);
-            res.type('application/json');
-            res.jsonp(body.data);
-            res.end();
-          }
-      );
-    }
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "GET", base_url + "/rules/"+req.params[0], {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
+  });
+});
+
+// 규칙 추가
+app.post('/rules', function (req, res) {
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "POST", base_url + "/rules", req.body, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
+  });
+});
+
+// 규칙 업데이트
+app.put('/rules/*', function (req, res) {
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "PUT", base_url + "/rules/"+req.params[0], req.body, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.jsonp(body.data);
+      res.end();
+    });
+  });
+});
+
+// 규칙 삭제
+app.delete('/rules/*', function (req, res) {
+  tpRequest.getAuth(function (auth) {
+    tpRequest.sendGetRequest(auth, "DELETE", base_url + "/rules/"+req.params[0], {}, function (error, response, body) {
+      res.type('application/json');
+      res.status(response.statusCode);
+      res.end();
+    });
   });
 });
 
