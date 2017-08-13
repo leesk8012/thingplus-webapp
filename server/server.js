@@ -2,6 +2,10 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var tpRequest = require('./lib/tp-request');
+var tpMonitor = require('./lib/tp-monitor');
+
+tpMonitor.monitorJob.start();
+//tpMonitor.test();
 
 var app = express();
 // parse application/x-www-form-urlencoded
@@ -33,8 +37,9 @@ app.post('/oauth2/token', function (req, res) {
   if (Object.keys(req.body).length > 0) {
     config.token_param.code = req.body.code;
     console.log(config.token_param);
-    tpRequest.getAuth(function (auth) {
-      tpRequest.sendGetRequest(auth, "POST", base_url + "/oauth2/token", config.token_param, function (error, response, body) {
+    //tpRequest.getAuth(function (auth) {
+      tpRequest.sendGetRequest('', "POST", base_url + "/oauth2/token", config.token_param, function (error, response, body) {
+	console.log(base_url);
         console.log(body);
         tpRequest.setAuth(body.token_type + " " + body.access_token, function() {
           res.type('application/json');
@@ -43,7 +48,7 @@ app.post('/oauth2/token', function (req, res) {
           res.end();
         });
       });
-    });
+    //});
   }
 });
 
@@ -64,6 +69,7 @@ app.get('/gateways', function (req, res) {
 app.get('/gateways/*', function (req, res) {
   tpRequest.getAuth(function (auth) {
     tpRequest.sendGetRequest(auth, "GET", base_url + "/gateways/"+req.params[0], {}, function (error, response, body) {
+	console.log(body);
       res.type('application/json');
       res.status(response.statusCode);
       res.jsonp(body.data);

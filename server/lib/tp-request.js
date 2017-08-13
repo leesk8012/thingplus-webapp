@@ -1,8 +1,10 @@
 var request = require('request');
 var fs = require('fs');
 
+var authPath = '/home/ec2-user/thingplus-webapp/config/auth.txt'
+
 exports.getAuth = function(callback) {
-  fs.readFile('../config/auth.txt', 'utf-8', function(err, data) {
+  fs.readFile(authPath, 'utf-8', function(err, data) {
     if (err) {
       console.log(err);
     }
@@ -13,7 +15,7 @@ exports.getAuth = function(callback) {
 }
 
 exports.setAuth = function(auth, callback) {
-  fs.writeFile('../config/auth.txt', auth, function(err) {
+  fs.writeFile(authPath, auth, function(err) {
     if (err) {
       console.log(err);
     }
