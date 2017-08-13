@@ -1,7 +1,7 @@
 var request = require('request');
 var fs = require('fs');
 
-var authPath = '/home/ec2-user/thingplus-webapp/config/auth.txt'
+var authPath = process.cwd()+ '/config/auth.txt';
 
 exports.getAuth = function(callback) {
   fs.readFile(authPath, 'utf-8', function(err, data) {
@@ -12,7 +12,7 @@ exports.getAuth = function(callback) {
       return callback(data);
     }
   });
-}
+};
 
 exports.setAuth = function(auth, callback) {
   fs.writeFile(authPath, auth, function(err) {
@@ -21,7 +21,7 @@ exports.setAuth = function(auth, callback) {
     }
     return callback();
   });
-}
+};
 
 exports.sendGetRequest = function(auth, method, url, body, callback) {
   var options = {
@@ -29,8 +29,8 @@ exports.sendGetRequest = function(auth, method, url, body, callback) {
     method: method,
     json: true,
     headers: {
-      'Content-Type':'application/json',
-      'Authorization': auth,
+      "Content-Type": "application/json",
+      "Authorization": auth
     }
   };
 
@@ -55,4 +55,4 @@ exports.sendGetRequest = function(auth, method, url, body, callback) {
       });
       break;
   }
-}
+};

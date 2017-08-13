@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/leesk8012/thingplus-webapp#readme",
   "dependencies": {
+    "async": "^2.5.0",
     "body-parser": "^1.17.2",
-    "express": "^4.15.3",
+    "cron": "^1.2.1",
+    "express": "^4.15.4",
+    "mongoose": "^3.8.22",
     "request": "^2.81.0"
   }
 }
