@@ -1,77 +1,35 @@
-<!doctype html>
-<html ng-app="ui.bootstrap.demo">
-  <head>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
-    <script src="./view.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <div ng-controller="AlertDemoCtrl">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="./index.js"></script>
+</head>
+<body>
 
-<!-- Tab set 동작 잘 안됨?
-      <tabset>
-        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
-          <div ng-include="tab.content"></div>
-        </tab>
-      </tabset>
--->
-<md-tabs>
-  <md-tab label="Tab #1"></md-tab>
-  <md-tab label="Tab #2"></md-tab>
-  <md-tab label="Tab #3"></md-tab>
-</md-tabs>
+<div class="container">
+  <h2>Dynamic Tabs</h2>
+  <ul class="nav nav-tabs" id="myTabs">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    <li><a data-toggle="tab" href="#menu1" data-url="/html/gateways.html">Menu 1</a></li>
+    <li><a data-toggle="tab" href="#menu2" data-url="/html/rules.html">Menu 2</a></li>
+    <li><a data-toggle="tab" href="#menu3" data-url="/html/sensors.html">Menu 3</a></li>
+  </ul>
 
-<md-tab label ng-disabled md-on-select md-on-deselect>
-  <h3>My Tab content</h3>
-</md-tab>
-
-<md-tab>
-  <md-tab-label>
-    <h3>My Tab content</h3>
-  </md-tab-label>
-  <md-tab-body>
-    <p>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-      totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-      dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
-      sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-    </p>
-  </md-tab-body>
-</md-tab>
-
-    <md-tabs>
-        <md-tab label="Product catalog">
-            <div ng-include src="gateways.html"></div>
-        </md-tab>
-        <md-tab label="Workers management">
-            <div ng-include src="sensors.html"></div>
-        </md-tab>
-    </md-tabs>
-
-    <!--
-      <table class="table">
-        <thead class="thead-inverse">
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>ID</th>
-            <th>Location Sensor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="item in gateways">
-            <th scope="row">{{$index}}</th>
-            <td>{{item.name}}</td>
-            <td>{{item.id}}</td>
-            <td>{{item.location}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" class='btn btn-default' ng-click="gateways()">Get Gateways</button>
-    -->
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h3>HOME</h3>
+      <p>TEST</p>
     </div>
-  </body>
+    <div id="menu1" class="tab-pane fade"></div>
+    <div id="menu2" class="tab-pane fade"></div>
+    <div id="menu3" class="tab-pane fade"></div>
+  </div>
+</div>
+
+</body>
 </html>

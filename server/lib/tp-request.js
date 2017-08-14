@@ -7,10 +7,9 @@ exports.getAuth = function(callback) {
   fs.readFile(authPath, 'utf-8', function(err, data) {
     if (err) {
       console.log(err);
+      return callback(err.code +" : "+err.errno, data);
     }
-    else {
-      return callback(data);
-    }
+    return callback('', data);
   });
 };
 

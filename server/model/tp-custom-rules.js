@@ -7,8 +7,9 @@ var CustomRuleSchema = new Schema({
   name: String,
   gatewayid: String,
   sensorid : String,
-  threshold: Object
+  threshold: Array,
+  method: String,
+  status: String
 });
 
 module.exports = mongoose.model('CustomRule', CustomRuleSchema, "CustomRule");
-
