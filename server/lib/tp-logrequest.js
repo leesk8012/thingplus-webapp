@@ -1,27 +1,27 @@
 var CustomRule = require('../model/tp-custom-rules');
 var tpPersistence = require('./tp-persistence');
 
-exports.add = function(callback) {
-  var newCustomRule = CustomRule({
-    id: "test3",
-    desc: "dsec",
-    name: "nnn",
-    threshold:[{fromX:3, fromY:30}, {fromY:4, toY:20}],
-    status: "warn",
-    method: "outOfRange",
-    gatewayid: "e9e3c42429d64e4897861b968265471e",
-    sensorid: "location-e9e3c42429d64e4897861b968265471e-1"
+exports.add = function(data, callback) {
+  var newCustomRule = CustomRule(data);
+  tpPersistence.tpSave(newCustomRule, function(error, result) {
+    callback(error, result);
   });
+};
 
-  // Save 를 하는 경우.
-  // newCustomRule.save(function(err){
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   console.log("writes custom rule");
-  //   return callback();
-  // });
+exports.update = function(find, data, callback) {
+  tpPersistence.tpUpdate(CustomRule, find, data, function(error) {
+    callback(error);
+  });
+};
 
-  // tpPersistence.tpUpdate(newCustomRule, function(){});
+exports.get = function(param, callback){
+  tpPersistence.tpFind(CustomRule, param, function(error, result) {
+    callback(error, result);
+  });
+};
 
+exports.remove = function(param, callback) {
+  tpPersistence.tpDelete(CustomRule, param, function(error) {
+    callback(error);
+  });
 };

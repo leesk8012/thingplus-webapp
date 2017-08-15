@@ -37,7 +37,7 @@ exports.tpFind = function(collection, query, callback) {
     if (error) {
       console.log(error);
     }
-    return callback(result);
+    return callback(error, result);
   });
 };
 
@@ -59,8 +59,8 @@ exports.tpUpdate = function(collection, find, data, callback) {
   });
 };
 
-exports.tpDelete = function( collection, callback ) {
-  collection.remove(function(error) {
+exports.tpDelete = function( collection, find, callback ) {
+  collection.findOneAndRemove(find, function(error) {
     if (error) {
       console.log(error);
     }

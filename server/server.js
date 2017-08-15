@@ -3,8 +3,6 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var tpRequest = require('./lib/tp-request');
 var tpMonitor = require('./lib/tp-monitor');
-
-// TODO
 var tpLogRequest = require('./lib/tp-logrequest');
 
 tpMonitor.monitorJob.start();
@@ -298,40 +296,66 @@ app.delete('/rules/*', function (req, res) {
   });
 });
 
-// TODO EXAMPLE
-// {
-//   id: "test3",
-//   desc: "dsec",
-//   name: "nnn",
-//   threshold:[{fromX:3, fromY:30}, {fromY:4, toY:20}],
-//   status: "warn",
-//   method: "outOfRange",
-//   gatewayid: "e9e3c42429d64e4897861b968265471e",
-//   sensorid: "location-e9e3c42429d64e4897861b968265471e-1"
-// }
-// logrules add --
-app.post('/logrules/*', function (req, res) {
-
-});
-
-
-// logrules delete
-app.delete('/logrules/*', function (req, res) {
-
-});
-
-
-// logrules update
-app.put('/logrules/*', function (req, res) {
-  tpLogRequest.add(function() {
+// logrules add - 새로운 룰 추가
+app.post('/logrules', function (req, res) {
+  tpLogRequest.add(req.body, function(error, result) {
+    if (error) {
+      res.status(500);
+    }
+    else {
+      res.status(200);
+      res.jsonp(result);
+    }
     res.type('application/json');
-    res.write('');
-    res.status(200);
     res.end();
   });
 });
 
-// logrules get
+// logrules delete 룰 삭제하기
+app.delete('/logrules/*', function (req, res) {
+  tpLogRequest.remove({ "id":req.params[0] }, function(error) {
+    if (error) {
+      res.status(500);
+    }
+    else {
+      res.status(200);
+    }
+    res.type('application/json');
+    res.write('');
+    res.end();
+  });
+});
+
+// logrules update 입력받은 대로 업데이트.
+app.put('/logrules/*', function (req, res) {
+  console.log(req.body);
+  tpLogRequest.update({ "id":req.params[0] }, req.body, function(error) {
+    if (error) {
+      res.status(500);
+    }
+    else {
+      res.status(200);
+    }
+    res.type('application/json');
+    res.write('');
+    res.end();
+  });
+});
+
+// logrules get -- 룰 리스트 가져오기
+app.get('/logrules', function (req, res) {
+  tpLogRequest.get({}, function (error, result) {
+    if (error) {
+      res.status(500);
+    }
+    else {
+      res.status(200);
+    }
+    res.type('application/json');
+    res.jsonp(result);
+    res.end();
+  });
+});
 
 app.use(express.static('.'));
 var server = app.listen(8081, function () {

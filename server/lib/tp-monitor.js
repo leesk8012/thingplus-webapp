@@ -34,7 +34,7 @@ exports.monitorJob =  new cron.CronJob('*/10 * * * * *', function() {
 var tasks = [
   function(callback) {
     var result = [ ];
-    tpPersistence.tpFind(CustomRule, {}, function(rules) {
+    tpPersistence.tpFind(CustomRule, {}, function(error, rules) {
       async.eachSeries(rules, function(rule, eachSeriesDone) {
         tpRequest.sendGetRequest('', "GET",  "http://localhost:8081/gateways/"+rule.gatewayid+"/sensors/"+rule.sensorid+"/series", {}, function (error, response, body) {
           if (error || response.statusCode !== 200) { return eachSeriesDone(error || response.statusCode); }
@@ -52,7 +52,7 @@ var tasks = [
   },
   function(callback) {
     var result  = [ ];
-    tpPersistence.tpFind(CustomRule, {}, function(rules) {
+    tpPersistence.tpFind(CustomRule, {}, function(error, rules) {
       for (i=0;i < rules.length ;i++) {
         result[i] = { "gatewayid":rules[i].gatewayid ,"sensorid":rules[i].sensorid , "threshold" : rules[i].threshold, "method" : rules[i].method };
       }
