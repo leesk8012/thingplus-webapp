@@ -1,35 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="./index.js"></script>
-</head>
-<body>
-
-<div class="container">
-  <h2>Dynamic Tabs</h2>
-  <ul class="nav nav-tabs" id="myTabs">
-    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-    <li><a data-toggle="tab" href="#menu1" data-url="/html/gateways.html">Menu 1</a></li>
-    <li><a data-toggle="tab" href="#menu2" data-url="/html/rules.html">Menu 2</a></li>
-    <li><a data-toggle="tab" href="#menu3" data-url="/html/sensors.html">Menu 3</a></li>
-  </ul>
-
-  <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-      <h3>HOME</h3>
-      <p>TEST</p>
+<html ng-app="ui.bootstrap.demo">
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="./index.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div ng-controller="GatewaysCtrl" ng-init>
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Location Sensor</th>
+            <th>Current Location</th>
+            <th>Virtual Device</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in gatewaysdata">
+            <!--<td><input type="checkbox" ng-model="gatewaysdata[item.id]" ng-true-value="'{{item.id}}'" ng-false-value="''"></td> -->
+            <!--<th scope="row"><input type="checkbox" ng-model="selectedgateway.selected[item.id]" ng-true-value="'{{item.id}}'" ng-false-value="''"> {{$index}}</th>-->
+            <th scope="row"><input type="checkbox" ng-model="item.checked" ng-click="updateSelection($index, gatewaysdata)"> {{$index}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.location.hasValue}}</td>
+            <td>{{item.position}}</td>
+            <td>{{item.virtual}}</td>
+            <!--<td>{{item.checked}}</td>-->
+          </tr>
+        </tbody>
+      </table>
+      <!-- TODO TEST CODE -->
+      <!-- {{selectedgateway}} -->
+      <button type="button" class='btn btn-default' ng-click="gateways()">Get Gateways</button>
+      <button type="button" class='btn btn-default' ng-click="addgateway()">Add Gateway</button>
+      <button type="button" class='btn btn-default' ng-click="deletegateway()" ng-disabled="selectedgateway == ''">Delete Gateway</button>
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Gateway ID</th>
+            <th>Sensor ID</th>
+            <th>Status</th>
+            <th>Method</th>
+            <th>Desc</th>
+            <th>Threshold Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in logrulesdata">
+            <th scope="row"><input type="checkbox" ng-model="item.checked" ng-click="updatelogSelection($index, logrulesdata)"> {{$index}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.gatewayid}}</td>
+            <td>{{item.sensorid}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.method}}</td>
+            <td>{{item.desc}}</td>
+            <td>{{item.threshold}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- TODO TEST CODE -->
+      <!-- {{selectedlogrule}} -->
+      <button type="button" class='btn btn-default' ng-click="logrules()">Get Custom Rules</button>
+      <button type="button" class='btn btn-default' ng-click="addlogrules()" ng-disabled="selectedgateway == ''">Add Custom Rules</button>
+      <button type="button" class='btn btn-default' ng-click="deletelogrules()" ng-disabled="selectedlogrule == ''">Delete Custom Rules</button>
     </div>
-    <div id="menu1" class="tab-pane fade"></div>
-    <div id="menu2" class="tab-pane fade"></div>
-    <div id="menu3" class="tab-pane fade"></div>
-  </div>
-</div>
-
-</body>
+  </body>
 </html>

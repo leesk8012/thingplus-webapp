@@ -27,7 +27,7 @@ var errorPage = function(res, errorMsg, statusCode) {
 app.all("/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
     return next();
 });
 
@@ -140,7 +140,15 @@ app.delete('/gateways/*', function (req, res) {
 app.post('/registerGateway', function (req, res) {
   tpRequest.getAuth(function (fsErr, auth) {
     if (!fsErr) {
-      tpRequest.sendGetRequest(auth, "POST", base_url + "/registerGateway", req.body, function (error, response, body) {
+      var data = req.body;
+      if (data.data != undefined ) { data = data.data; }
+      // console.log(data);
+      tpRequest.sendGetRequest(auth, "POST", base_url + "/registerGateway", data, function (error, response, body) {
+        if (error || response.statusCode !== 200) {
+          console.log(error);
+          console.log(body);
+        }
+
         res.type('application/json');
         res.status(response.statusCode);
         res.jsonp(body.data);
@@ -242,6 +250,8 @@ app.post('/rules', function (req, res) {
   tpRequest.getAuth(function (fsErr, auth) {
     if (!fsErr) {
       tpRequest.sendGetRequest(auth, "POST", base_url + "/rules", req.body, function (error, response, body) {
+        if (error || response.statusCode !== 200) { console.log(response); }
+
         res.type('application/json');
         res.status(response.statusCode);
         res.jsonp(body.data);
@@ -298,7 +308,14 @@ app.delete('/rules/*', function (req, res) {
 
 // logrules add - 새로운 룰 추가
 app.post('/logrules', function (req, res) {
-  tpLogRequest.add(req.body, function(error, result) {
+  var data = req.body;
+  // console.log("POST "+req.body);
+  // console.log(req.body);
+  if (data.data != undefined ) { data = data.data; }
+
+  // tpLogRequest.add(req.body, function(error, result) {
+  tpLogRequest.add(data, function(error, result) {
+    res.type('application/json');
     if (error) {
       res.status(500);
     }
@@ -306,7 +323,6 @@ app.post('/logrules', function (req, res) {
       res.status(200);
       res.jsonp(result);
     }
-    res.type('application/json');
     res.end();
   });
 });
@@ -314,13 +330,13 @@ app.post('/logrules', function (req, res) {
 // logrules delete 룰 삭제하기
 app.delete('/logrules/*', function (req, res) {
   tpLogRequest.remove({ "id":req.params[0] }, function(error) {
+    res.type('application/json');
     if (error) {
       res.status(500);
     }
     else {
       res.status(200);
     }
-    res.type('application/json');
     res.write('');
     res.end();
   });
@@ -330,13 +346,13 @@ app.delete('/logrules/*', function (req, res) {
 app.put('/logrules/*', function (req, res) {
   console.log(req.body);
   tpLogRequest.update({ "id":req.params[0] }, req.body, function(error) {
+    res.type('application/json');
     if (error) {
       res.status(500);
     }
     else {
       res.status(200);
     }
-    res.type('application/json');
     res.write('');
     res.end();
   });
@@ -345,13 +361,13 @@ app.put('/logrules/*', function (req, res) {
 // logrules get -- 룰 리스트 가져오기
 app.get('/logrules', function (req, res) {
   tpLogRequest.get({}, function (error, result) {
+    res.type('application/json');
     if (error) {
       res.status(500);
     }
     else {
       res.status(200);
     }
-    res.type('application/json');
     res.jsonp(result);
     res.end();
   });

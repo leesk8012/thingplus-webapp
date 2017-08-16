@@ -8,22 +8,26 @@ tpPersistence.tpConnect();
 
 // 주기적으로 데이터를 읽어와서 체크한다.
 exports.monitorJob =  new cron.CronJob('*/10 * * * * *', function() {
-    console.log("Job "+Date.now());
+    // console.log("Job "+Date.now());
     async.series(tasks, function(err, results) {
       // TODO add and compare?
       for (j=0;j<results.length;j++) {
         for (k=0;k<results[j].length;k++) {
           // from API
-          console.log(results[0][k]);
+          //console.log(results[0][k]);
           // from DB
-          console.log(results[1][k]);
+          //console.log(results[1][k]);
           switch(results[1][k].method) {
             case "outOfRange":
-              if (results[1][k].threshold[0].fromX > results[0][k].lx || results[1][k].threshold[0].toX < results[0][k].lx ||
-                results[1][k].threshold[0].fromY > results[0][k].ly || results[1][k].threshold[0].toY < results[0][k].ly)
+              if (results[1][k].threshold[0].fromlat > results[0][k].lat || results[1][k].threshold[0].tolat < results[0][k].lat ||
+                results[1][k].threshold[0].fromlng > results[0][k].lng || results[1][k].threshold[0].tolng < results[0][k].lng) {
                 // Find and Save
                 tpPersistence.tpUpdate(CustomRule, {"sensorid": results[1][k].sensorid}, { "status":"warn" }, function() {});
                 // console.log("sensorid :"+ results[1][k].sensorid);
+              }
+              else {
+                tpPersistence.tpUpdate(CustomRule, {"sensorid": results[1][k].sensorid}, { "status":"ok" }, function() {});
+              }
               break;
           }
         }
@@ -39,7 +43,10 @@ var tasks = [
         tpRequest.sendGetRequest('', "GET",  "http://localhost:8081/gateways/"+rule.gatewayid+"/sensors/"+rule.sensorid+"/series", {}, function (error, response, body) {
           if (error || response.statusCode !== 200) { return eachSeriesDone(error || response.statusCode); }
 
-          result.push({"lx":body.latest.value , "ly":body.latest.value});  // 테스트에서 하나의 값만 나오는 센서의 경우, 다른 센서에 같은 값을 추가하였다.
+          // TODO 일반 타입인 경우에는
+          // result.push({"lx":body.latest.value , "ly":body.latest.value});  // 테스트에서 하나의 값만 나오는 센서의 경우, 다른 센서에 같은 값을 추가하였다.
+          // TODO 위치 타입인 경우에는 값이 다르다.
+          result.push({"lat":body.latest.value.lat , "lng":body.latest.value.lng});  // 테스트에서 하나의 값만 나오는 센서의 경우, 다른 센서에 같은 값을 추가하였다.
           eachSeriesDone();
         });
       },

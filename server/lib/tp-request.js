@@ -45,6 +45,7 @@ exports.sendGetRequest = function(auth, method, url, body, callback) {
       break;
     case "POST":
     case "PUT":
+      // console.log(body);
       options.body = body;
       request(options, function (error, response, body) {
           if (error) {
