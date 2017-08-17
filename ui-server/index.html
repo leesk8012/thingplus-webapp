@@ -10,13 +10,20 @@
   </head>
   <body>
     <div ng-controller="GatewaysCtrl" ng-init>
+      Gateway ID
+      <input type="text" name="gatewayid" ng-model="structgateway.reqId" required>
+      Device ID
+      <input type="text" name="deviceid" ng-model="structgateway.params.devices[0].reqId" required>
+      Sensor ID
+      <input type="text" name="sensorid" ng-model="structgateway.params.sensors[0].reqId" required>
       <table class="table">
         <thead class="thead-inverse">
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>ID</th>
-            <th>Location Sensor</th>
+            <th>Gateway ID</th>
+            <th>Device ID</th>
+            <th>Sensor ID</th>
             <th>Current Location</th>
             <th>Virtual Device</th>
           </tr>
@@ -28,6 +35,7 @@
             <th scope="row"><input type="checkbox" ng-model="item.checked" ng-click="updateSelection($index, gatewaysdata)"> {{$index}}</th>
             <td>{{item.name}}</td>
             <td>{{item.id}}</td>
+            <td>{{item.devices[0]}}</td>
             <td>{{item.location.hasValue}}</td>
             <td>{{item.position}}</td>
             <td>{{item.virtual}}</td>
@@ -74,5 +82,6 @@
       <button type="button" class='btn btn-default' ng-click="addlogrules()" ng-disabled="selectedgateway == ''">Add Custom Rules</button>
       <button type="button" class='btn btn-default' ng-click="deletelogrules()" ng-disabled="selectedlogrule == ''">Delete Custom Rules</button>
     </div>
+    {{structgateway}}
   </body>
 </html>

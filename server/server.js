@@ -142,10 +142,9 @@ app.post('/registerGateway', function (req, res) {
     if (!fsErr) {
       var data = req.body;
       if (data.data != undefined ) { data = data.data; }
-      // console.log(data);
+      console.log(data);
       tpRequest.sendGetRequest(auth, "POST", base_url + "/registerGateway", data, function (error, response, body) {
         if (error || response.statusCode !== 200) {
-          console.log(error);
           console.log(body);
         }
 
@@ -312,7 +311,7 @@ app.post('/logrules', function (req, res) {
   // console.log("POST "+req.body);
   // console.log(req.body);
   if (data.data != undefined ) { data = data.data; }
-
+  console.log(data);
   // tpLogRequest.add(req.body, function(error, result) {
   tpLogRequest.add(data, function(error, result) {
     res.type('application/json');

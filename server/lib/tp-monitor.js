@@ -23,7 +23,7 @@ exports.monitorJob =  new cron.CronJob('*/10 * * * * *', function() {
                 results[1][k].threshold[0].fromlng > results[0][k].lng || results[1][k].threshold[0].tolng < results[0][k].lng) {
                 // Find and Save
                 tpPersistence.tpUpdate(CustomRule, {"sensorid": results[1][k].sensorid}, { "status":"warn" }, function() {});
-                // console.log("sensorid :"+ results[1][k].sensorid);
+                console.log("["+Date.now()+"] warn sensorid :"+ results[1][k].sensorid);
               }
               else {
                 tpPersistence.tpUpdate(CustomRule, {"sensorid": results[1][k].sensorid}, { "status":"ok" }, function() {});

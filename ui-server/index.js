@@ -29,12 +29,6 @@ angular.module('ui.bootstrap.demo').controller('GatewaysCtrl', function ($scope,
   };
 
   $scope.addgateway = function() {
-    var seconds = Math.floor(new Date().getTime() / 1000);
-    console.log("addgateway "+seconds);
-    $scope.structgateway.reqId = $scope.structgateway.reqId + seconds.toString();
-    $scope.structgateway.params.devices[0].reqId = $scope.structgateway.params.devices[0].reqId + seconds.toString();
-    $scope.structgateway.params.sensors[0].reqId = $scope.structgateway.params.sensors[0].reqId + seconds.toString();
-
     console.log($scope.structgateway.reqId);
     console.log($scope.structgateway.params.devices[0].reqId);
     console.log($scope.structgateway.params.sensors[0].reqId);
@@ -160,14 +154,14 @@ angular.module('ui.bootstrap.demo').controller('GatewaysCtrl', function ($scope,
   // TODO TEST 용도 - 파일로 불러올 수 있으면 제거.
   $scope.structgateway =
   {
-    "reqId":"5009cd129d0d42138e614", //68a524f", //8a38",
+    "reqId":"5009cd129d0d42138e61468a524f8a38",
     "params":
     {
       "name":"logistic Gateway Name",
       "model":"42",
       "deviceModels":[
       {
-        "id":"f4e3dfa978014203a93cfe5b31", //3e5197s",
+        "id":"f4e3dfa978014203a93cfe5b313e5197s",
         "model":"Logistics"
       }],
       "siteId":"1",
@@ -176,7 +170,7 @@ angular.module('ui.bootstrap.demo').controller('GatewaysCtrl', function ($scope,
       "devices":[{
         "name":"Custom Test Device",
         "model":"Logistics",
-        "reqId":"f4e3dfa978014203a93cf", //e5b313e", //5197s"
+        "reqId":"f4e3dfa978014203a93cfe5b313e5197s"
       }],
       "sensors":[
       {
