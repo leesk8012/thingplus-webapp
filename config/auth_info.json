@@ -1,4 +1,0 @@
-{
-  "user_info" : {"client_id":"", "response_type":"code", "redirect_uri":""},
-  "token_param" : {"client_id": "","client_secret": "","redirect_uri": "","grant_type": "authorization_code"}
-}
