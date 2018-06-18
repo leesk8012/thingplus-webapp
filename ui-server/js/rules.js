@@ -9,7 +9,7 @@ angular.module('ui.bootstrap.demo').controller('RulesCtrl', function ($scope, $h
       url: $scope.address + '/rules',
       headers: {'Content-Type': 'application/json'}
     }).then(function successCallback(response) {
-        console.log(response)
+        console.log(response);
         $scope.rules = [];
         angular.forEach(response.data, function (value, key) {
           $scope.rules.push(value);
@@ -18,4 +18,6 @@ angular.module('ui.bootstrap.demo').controller('RulesCtrl', function ($scope, $h
         conosole.log(response);
       });
   };
+
+  $scope.rules();
 });

@@ -1,0 +1,19 @@
+{
+    "id" : "CustomRule",
+    "desc" : "Description",
+    "name" : "Rule Name",
+    "status" : "ok",
+    "method" : "outOfRange",
+    "gatewayid" : "e9e3c42429d64e4897861b968265471e",
+    "sensorid" : "location-e9e3c42429d64e4897861b968265471e-1",
+    "threshold" : [
+        {
+            "tolat" : 37,
+            "fromlat" : 35
+        },
+        {
+            "tolng" : 130,
+            "fromlng" : 125
+        }
+    ]
+}

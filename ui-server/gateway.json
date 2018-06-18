@@ -1,0 +1,32 @@
+{
+  "reqId":"5009cd129d0d42138e61468a524f8a38",
+  "params":
+  {
+    "name":"logistic Gateway Name",
+    "model":"42",
+    "deviceModels":[
+    {
+      "id":"f4e3dfa978014203a93cfe5b313e5197s",
+      "model":"Logistics"
+    }],
+    "siteId":"1",
+    "virtual":"y",
+    "reportInterval":"300000",
+    "devices":[{
+      "name":"Custom Test Device",
+      "model":"Logistics",
+      "reqId":"f4e3dfa978014203a93cfe5b313e5197s"
+    }],
+    "sensors":[
+    {
+      "network":"daliworks",
+      "driverName":"daliworksEmulator",
+      "model":"locationEmulator",
+      "sequence":"1",
+      "type":"location",
+      "category":"sensor",
+      "name":"location_1",
+      "virtual":"y"
+    }]
+  }
+}

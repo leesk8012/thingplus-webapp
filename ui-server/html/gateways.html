@@ -10,9 +10,9 @@
   </head>
   <body>
     <a href=./gateways.html>Gateways</a>
-    <a href=./sensors.html>Sensors</a>
     <a href=./rules.html>Rules</a>
-    <div ng-controller="GatewaysCtrl">
+    <a href=./logrules.html>Logistic Rules</a>
+    <div ng-controller="GatewaysCtrl" ng-init>
       <table class="table">
         <thead class="thead-inverse">
           <tr>
@@ -20,18 +20,21 @@
             <th>Name</th>
             <th>ID</th>
             <th>Location Sensor</th>
+            <th>Current Location</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="item in gateways">
+          <tr ng-repeat="item in gatewaysdata">
             <th scope="row">{{$index}}</th>
             <td>{{item.name}}</td>
             <td>{{item.id}}</td>
-            <td>{{item.location}}</td>
+            <td>{{item.location.hasValue}}</td>
+            <td>{{item.position}}</td>
           </tr>
         </tbody>
       </table>
       <button type="button" class='btn btn-default' ng-click="gateways()">Get Gateways</button>
+      <button type="button" class='btn btn-default' ng-click="addgateway()">Add Gateway</button>
     </div>
   </body>
 </html>

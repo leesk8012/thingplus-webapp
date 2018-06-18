@@ -5,33 +5,45 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
-    <script src="../js/sensors.js"></script>
+    <script src="../js/logrules.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <a href=./gateways.html>Gateways</a>
-    <a href=./sensors.html>Sensors</a>
     <a href=./rules.html>Rules</a>
-    <div ng-controller="SensorsCtrl">
+    <a href=./logrules.html>Logistic Rules</a>
+    <div ng-controller="RulesCtrl">
       <table class="table">
         <thead class="thead-inverse">
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>ID</th>
-            <th>Location Sensor</th>
+            <th>Gateway ID</th>
+            <th>Sensor ID</th>
+            <th>Status</th>
+            <th>Method</th>
+            <th>Desc</th>
+            <th>Threshold Condition</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="item in sensors">
+          <tr ng-repeat="item in logrulesdata">
             <th scope="row">{{$index}}</th>
             <td>{{item.name}}</td>
             <td>{{item.id}}</td>
-            <td>{{item.location}}</td>
+            <td>{{item.gatewayid}}</td>
+            <td>{{item.sensorid}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.method}}</td>
+            <td>{{item.desc}}</td>
+            <td>{{item.threshold}}</td>
           </tr>
         </tbody>
       </table>
-      <button type="button" class='btn btn-default' ng-click="sensors()">Get Sensors</button>
+      <button type="button" class='btn btn-default' ng-click="logrules()">Get Custom Rules</button>
+      <button type="button" class='btn btn-default' ng-click="addlogrules()">Add Custom Rules</button>
+      <button type="button" class='btn btn-default' ng-click="Deletelogrules()">Delete Custom Rules</button>
     </div>
   </body>
 </html>
