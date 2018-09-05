@@ -10,7 +10,7 @@ stages:
 
 job-build:
   stage: build
-  script: npm install
+  script: echo 'job-build'
 
 job-test:
   stage: test
