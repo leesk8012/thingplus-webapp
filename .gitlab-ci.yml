@@ -1,0 +1,24 @@
+# Gitlab CI
+
+before_script:
+  - echo 'global before script'
+
+stages:
+  - build
+  - test
+  - deploy
+
+job-build:
+  stage: build
+  script: npm install
+
+job-test:
+  stage: test
+  script: echo 'job-test'
+
+job-deploy:
+  stage: deploy
+  script: echo 'job-deploy'
+
+after_script:
+  - echo 'global after script'
