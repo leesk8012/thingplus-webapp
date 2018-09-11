@@ -12,6 +12,7 @@ job-build:
   stage: build
   script:
     - npm install
+    - ls
     - cd config;ls
     - cd ../server/lib;ls
     - cd ../../ui-server;ls
