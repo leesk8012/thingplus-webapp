@@ -13,8 +13,8 @@ job-build:
   script:
     - npm install
     - ls
-    - cd config;ls
-    - cd ../server/lib;ls
+    - cd server;ls
+    - cd lib;ls
     - cd ../../ui-server;ls
 job-test:
   stage: test
