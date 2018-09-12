@@ -2,6 +2,8 @@
 
 before_script:
   - echo 'global before script'
+  - whoami
+  - pwd
 
 stages:
   - build
@@ -18,7 +20,10 @@ job-build:
     - cd ../../ui-server;ls
 job-test:
   stage: test
-  script: echo 'job-test'
+  script: 
+    - echo 'job-test'
+    - ls
+    - pwd
 
 job-deploy:
   stage: deploy
@@ -26,3 +31,5 @@ job-deploy:
 
 after_script:
   - echo 'global after script'
+  - whoami
+  - pwd
