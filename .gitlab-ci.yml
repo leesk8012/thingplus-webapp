@@ -19,7 +19,7 @@ stages:
 job-build:
   stage: build
   variables:
-    - CURRENT_PATH: $(pwd)
+    CURRENT_PATH: $(pwd)
   script:
     - echo $CURRENT_PATH
     - cd $CURRENT_PATH
