@@ -9,6 +9,7 @@ before_script:
   - ssh-keyscan -H $XMDBHOST >> ~/.ssh/known_hosts
   - cat ~/.ssh/id_rsa
   - cat ~/.ssh/known_hosts
+  - /usr/local/bin/redis-server /etc/redis/redis.conf
 
 stages:
   - build
@@ -28,6 +29,7 @@ job-test:
   script: 
     - echo 'job-test'
     - ls
+    - ps -ef | grep redis
     - pwd
 
 job-deploy:
