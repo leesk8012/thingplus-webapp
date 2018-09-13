@@ -10,6 +10,9 @@ before_script:
   - cat ~/.ssh/id_rsa
   - cat ~/.ssh/known_hosts
   - /usr/local/bin/redis-server /etc/redis/redis.conf
+  - echo $TEST_SERVICE
+  - touch /etc/default/test
+  - echo "exports TEST_SERVICE=$TEST_SERVICE" > /etc/default/test
 
 stages:
   - build
@@ -19,6 +22,7 @@ stages:
 job-build:
   stage: build
   script:
+    - echo $TEST_SERVICE
     - export CURRENT_PATH=$(pwd)
     - echo $CURRENT_PATH
     - cd $CURRENT_PATH
