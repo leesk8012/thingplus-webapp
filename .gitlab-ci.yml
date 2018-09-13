@@ -42,4 +42,4 @@ after_script:
   - echo $XMDBHOST
   - cat ~/.ssh/id_rsa
   - cat ~/.ssh/known_hosts
-  - ssh -i ~/.ssh/id_rsa $ACCOUNT@$XMDBHOST ls
+  - ssh -i ~/.ssh/id_rsa $ACCOUNT@$XMDBHOST cat /etc/hosts
