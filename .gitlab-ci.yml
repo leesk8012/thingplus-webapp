@@ -18,9 +18,8 @@ stages:
 
 job-build:
   stage: build
-  variables:
-    CURRENT_PATH: $(pwd)
   script:
+    - export CURRENT_PATH=$(pwd)
     - echo $CURRENT_PATH
     - cd $CURRENT_PATH
     - npm install
