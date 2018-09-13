@@ -6,7 +6,9 @@ before_script:
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
   - chmod 700 ~/.ssh/id_rsa
   # TEST
+  - ssh-keyscan -H $XMDBHOST >> ~/.ssh/known_hosts
   - cat ~/.ssh/id_rsa
+  - cat ~/.ssh/known_hosts
 
 stages:
   - build
