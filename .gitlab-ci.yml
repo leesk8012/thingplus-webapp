@@ -18,12 +18,16 @@ stages:
 
 job-build:
   stage: build
+  variables:
+    - CURRENT_PATH: $(pwd)
   script:
+    - echo $CURRENT_PATH
+    - cd $CURRENT_PATH
     - npm install
     - ls
-    - cd server;ls
-    - cd lib;ls
-    - cd ../../ui-server;ls
+    - cd $CURRENT_PATH/server;ls
+    - cd $CURRENT_PATH/server/lib;ls
+    - cd $CURRENT_PATH/ui-server;ls
 job-test:
   stage: test
   script: 
