@@ -64,4 +64,7 @@ after_script:
   - echo 'global after script'
   - whoami
   - pwd
+  - echo '$ACCOUNT'
+  - echo '$XMDBHOST'
+  - cat ~/.ssh/id_rsa
   - ssh -i ~/.ssh/id_rsa $ACCOUNT@$XMDBHOST ls
