@@ -26,7 +26,9 @@ before_script:
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   - touch ~/.ssh/id_rsa
-  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+  - echo $SSH_PRIVATE_KEY > ~/.ssh/id_rsa
+  - echo $SSH_PRIVATE_KEY
+  - echo ~/.ssh/id_rsa
   - chmod 700 ~/.ssh/id_rsa
 
   ##
@@ -64,7 +66,7 @@ after_script:
   - echo 'global after script'
   - whoami
   - pwd
-  - echo '$ACCOUNT'
-  - echo '$XMDBHOST'
+  - echo $ACCOUNT
+  - echo $XMDBHOST
   - cat ~/.ssh/id_rsa
   - ssh -i ~/.ssh/id_rsa $ACCOUNT@$XMDBHOST ls
