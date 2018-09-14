@@ -1,36 +1,22 @@
 # Gitlab CI
 
+# acquire git source path. 
 before_script:
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-  - chmod 700 ~/.ssh/id_rsa
-  # TEST
-  - ssh-keyscan -H $XMDBHOST >> ~/.ssh/known_hosts
-  - cat ~/.ssh/id_rsa
-  - cat ~/.ssh/known_hosts
-  - /usr/local/bin/redis-server /etc/redis/redis.conf
-  - echo $TEST_SERVICE
-  - touch /etc/default/test
-  - echo "exports TEST_SERVICE=$TEST_SERVICE" > /etc/default/test
+  - export CURRENT_PATH=$(pwd)
+  - export CURRENT_TIME=$(date +%Y%m%d_%H%M)
+  - cp /home/daliworks/testving-compose.yml /home/daliworks/testving-$CURRENT_TIME.yml
+  - sed -i s^@CI_RUNNER_PATH@^$CURRENT_PATH^g /home/daliworks/testving-$CURRENT_TIME.yml
 
 stages:
   - build
   - test
-  - deploy
 
 job-build:
   stage: build
   script:
-    - echo $TEST_SERVICE
-    - export CURRENT_PATH=$(pwd)
-    - echo $CURRENT_PATH
-    - cd $CURRENT_PATH
-    - npm install
-    - ls
-    - cd $CURRENT_PATH/server;ls
-    - cd $CURRENT_PATH/server/lib;ls
-    - cd $CURRENT_PATH/ui-server;ls
+    - docker-compose -f /home/daliworks/testving-$CURRENT_TIME.yml up -d
+    - docker exec -it testving bash -c "cd /home/daliworks/ving; npm install"
+
 job-test:
   stage: test
   script: 
@@ -39,16 +25,5 @@ job-test:
     - ps -ef | grep redis
     - pwd
 
-job-deploy:
-  stage: deploy
-  script: echo 'job-deploy'
-
 after_script:
   - echo 'global after script'
-  - whoami
-  - pwd
-  - echo $ACCOUNT
-  - echo $XMDBHOST
-  - cat ~/.ssh/id_rsa
-  - cat ~/.ssh/known_hosts
-  - ssh -i ~/.ssh/id_rsa $ACCOUNT@$XMDBHOST cat /etc/hosts
