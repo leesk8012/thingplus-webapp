@@ -2,10 +2,11 @@
 
 # acquire git source path. 
 before_script:
+  - whoami
   - export CURRENT_PATH=$(pwd)
   - export CURRENT_TIME=$(date +%Y%m%d_%H%M)
-  - cp /home/daliworks/testving-compose.yml /home/daliworks/testving-$CURRENT_TIME.yml
-  - sed -i s^@CI_RUNNER_PATH@^$CURRENT_PATH^g /home/daliworks/testving-$CURRENT_TIME.yml
+  - sudo cp /home/daliworks/testving-compose.yml /home/daliworks/testving-$CURRENT_TIME.yml
+  - sudo sed -i s^@CI_RUNNER_PATH@^$CURRENT_PATH^g /home/daliworks/testving-$CURRENT_TIME.yml
 
 stages:
   - build
