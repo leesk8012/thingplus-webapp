@@ -5,8 +5,8 @@ before_script:
   - whoami
   - export CURRENT_PATH=$(pwd)
   - export CURRENT_TIME=$(date +%Y%m%d_%H%M)
-  - sudo cp /home/daliworks/testving-compose.yml /home/daliworks/testving-$CURRENT_TIME.yml
-  - sudo sed -i s^@CI_RUNNER_PATH@^$CURRENT_PATH^g /home/daliworks/testving-$CURRENT_TIME.yml
+  - cp /home/gitlab-runner/testving-compose.yml /home/gitlab-runner/testving-$CURRENT_TIME.yml
+  - sed -i s^@CI_RUNNER_PATH@^$CURRENT_PATH^g /home/gitlab-runner/testving-$CURRENT_TIME.yml
 
 stages:
   - build
@@ -15,8 +15,8 @@ stages:
 job-build:
   stage: build
   script:
-    - docker-compose -f /home/daliworks/testving-$CURRENT_TIME.yml up -d
-    - docker exec -it testving bash -c "cd /home/daliworks/ving; npm install"
+    - docker-compose -f /home/gitlab-runner/testving-$CURRENT_TIME.yml up -d
+    - docker exec -it testving bash -c "cd /home/gitlab-runner/ving; npm install"
 
 job-test:
   stage: test
