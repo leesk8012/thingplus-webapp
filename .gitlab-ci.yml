@@ -25,9 +25,8 @@ job-build:
     - npm install
     - whoami
     - sudo ls /root/
-    - sudo cd /root/
-    - sudo touch test
-    - ls
+    - sudo touch /root/test
+    - sudo ls /root/
     - cd $CURRENT_PATH/server;ls
     - cd $CURRENT_PATH/server/lib;ls
     - cd $CURRENT_PATH/ui-server;ls
