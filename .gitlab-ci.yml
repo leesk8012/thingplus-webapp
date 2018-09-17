@@ -12,12 +12,12 @@ stages:
   - build
   - test
 
-cache:
-  paths:
-    - node_modules/
-
 job-build:
   stage: build
+  cache:
+    policy: push
+    paths:
+    - node_modules/
   script:
     - export CURRENT_PATH=$(pwd)
     - echo $CURRENT_PATH
@@ -32,6 +32,10 @@ job-build:
 
 job-test:
   stage: test
+  cache:
+    policy: pull
+    paths:
+      - node_modules/
   script: 
     - echo 'job-test'
     - ls
