@@ -23,6 +23,12 @@ job-build:
     - echo $CURRENT_PATH
     - cd $CURRENT_PATH
     - npm install
+    - whoami
+    - sudo su
+    - whoami
+    - ls /root/
+    - cd /root/
+    - touch test
     - ls
     - cd $CURRENT_PATH/server;ls
     - cd $CURRENT_PATH/server/lib;ls
