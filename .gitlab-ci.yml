@@ -26,7 +26,7 @@ job-build:
     - whoami
     - sudo ls /root/
     - sudo touch /root/test
-    - sudo ls /root/
+    - sudo $CURRENT_PATH/run.sh start
     - cd $CURRENT_PATH/server;ls
     - cd $CURRENT_PATH/server/lib;ls
     - cd $CURRENT_PATH/ui-server;ls
@@ -42,7 +42,7 @@ job-test:
   script: 
     - echo 'job-test'
     - ls
-    - ps -ef | grep redis
+    - ps -ef | grep node
     - pwd
 
 after_script:
