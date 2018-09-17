@@ -25,7 +25,7 @@ job-build:
     - npm install
     - echo $APP_LAUNCHER
     - echo $VING_SERVICE
-    - sudo bash -c "export APP_LAUNCHER=$APP_LAUNCHER;export VING_SERVICE=$VING_SERVICE;./testenv.sh"
+    - sudo bash -c "export APP_LAUNCHER=$APP_LAUNCHER;export VING_SERVICE=$VING_SERVICE;/home/daliworks/testenv.sh"
     - cd $CURRENT_PATH/server;ls
     - cd $CURRENT_PATH/server/lib;ls
     - cd $CURRENT_PATH/ui-server;ls
