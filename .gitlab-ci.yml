@@ -23,10 +23,7 @@ job-build:
     - echo $CURRENT_PATH
     - cd $CURRENT_PATH
     - npm install
-    - whoami
-    - sudo ls /root/
-    - sudo touch /root/test
-    - sudo $CURRENT_PATH/run.sh start
+    - sudo /home/daliworks/testenv.sh
     - cd $CURRENT_PATH/server;ls
     - cd $CURRENT_PATH/server/lib;ls
     - cd $CURRENT_PATH/ui-server;ls
