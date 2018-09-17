@@ -23,6 +23,8 @@ job-build:
     - echo $CURRENT_PATH
     - cd $CURRENT_PATH
     - npm install
+    - echo $APP_LAUNCHER
+    - echo $VING_SERVICE
     - sudo /home/daliworks/testenv.sh
     - cd $CURRENT_PATH/server;ls
     - cd $CURRENT_PATH/server/lib;ls
