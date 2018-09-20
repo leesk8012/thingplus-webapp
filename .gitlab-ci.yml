@@ -39,7 +39,7 @@ job-test:
     paths:
       - node_modules/
   script: 
-    - echo 'job-test'
+    - echo 'job-test gitlab'
     - ls
     - ps -ef | grep node
     - pwd
